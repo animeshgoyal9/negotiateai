@@ -968,11 +968,16 @@ function shareLinkedIn() {
   window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`, '_blank');
 }
 
-function submitModalEmail() {
+async function submitModalEmail() {
   const email = document.getElementById('modalEmail').value.trim();
   if (email) {
-    // Store email locally for now — swap in your email tool later
-    console.log('Email captured:', email);
+    try {
+      await fetch('https://formspree.io/f/mrerzdjl', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+    } catch(_) {}
     localStorage.setItem('negotiateai_email', email);
   }
   closeModalAndShow();
