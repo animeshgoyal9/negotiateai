@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NegotiateAI — Get Paid What You're Worth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --ink2: #3a3835;
+    --ink3: #7a7673;
+    --paper: #faf8f4;
+    --paper2: #f2ede4;
+    --paper3: #e8e0d0;
+    --accent: #c8440c;
+    --accent2: #e8a87c;
+    --green: #1a5c3a;
+    --green-bg: #e8f2ec;
+    --red-bg: #fdeee8;
+    --amber-bg: #fdf3e0;
+    --border: rgba(15,14,13,0.1);
+    --shadow: 0 2px 20px rgba(15,14,13,0.08);
+    --r: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--border);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px; letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+  .logo span { color: var(--accent); }
+  .nav-pill {
+    background: var(--ink); color: var(--paper);
+    font-size: 13px; font-weight: 500;
+    padding: 8px 18px; border-radius: 100px;
+    border: none; cursor: pointer;
+    transition: opacity .15s;
+  }
+  .nav-pill:hover { opacity: .8; }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 760px; margin: 0 auto;
+    padding: 64px 24px 48px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--red-bg);
+    color: var(--accent);
+    font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 100px;
+    letter-spacing: .04em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 6vw, 58px);
+    line-height: 1.08; letter-spacing: -1px;
+    color: var(--ink); margin-bottom: 20px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 17px; color: var(--ink2);
+    max-width: 520px; margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+  .stat-row {
+    display: flex; gap: 32px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 48px;
+  }
+  .stat { text-align: center; }
+  .stat-n {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px; color: var(--ink); display: block;
+  }
+  .stat-l { font-size: 12px; color: var(--ink3); }
+
+  /* ── FORM CARD ── */
+  .form-wrap {
+    max-width: 720px; margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px; font-weight: 400;
+    letter-spacing: -.3px;
+  }
+  .card-header p {
+    font-size: 13px; color: var(--ink3); margin-top: 4px;
+  }
+  .card-body { padding: 28px 32px; }
+
+  /* ── FORM ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  label {
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: var(--ink2);
+  }
+  input, select, textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200,68,12,.1);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7673' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+  /* ── COMPENSATION ROW ── */
+  .comp-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .comp-field { display: flex; flex-direction: column; gap: 6px; }
+  .input-prefix { position: relative; }
+  .input-prefix span {
+    position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px; color: var(--ink3); pointer-events: none;
+  }
+  .input-prefix input { padding-left: 24px; }
+
+  /* ── SUBMIT ── */
+  .submit-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .submit-note { font-size: 12px; color: var(--ink3); }
+  .btn-submit {
+    background: var(--accent); color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    padding: 13px 28px; border-radius: 100px;
+    border: none; cursor: pointer;
+    transition: transform .15s, opacity .15s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-submit:hover { transform: translateY(-1px); opacity: .92; }
+  .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .btn-submit .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    display: none;
+  }
+  .btn-submit.loading .spinner { display: block; }
+  .btn-submit.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── RESULTS ── */
+  #results { display: none; }
+  #results.visible { display: block; }
+
+  .result-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    margin-top: 24px;
+    overflow: hidden;
+  }
+  .result-section {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .result-section:last-child { border-bottom: none; }
+  .result-label {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink3); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .result-label::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+
+  /* comp bands */
+  .comp-bands {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px; margin-top: 4px;
+  }
+  .band {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .band.mid {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .band-label {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: var(--ink3); margin-bottom: 6px;
+  }
+  .band.mid .band-label { color: rgba(255,255,255,.6); }
+  .band-val {
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px; color: var(--ink);
+  }
+  .band.mid .band-val { color: #fff; }
+  .band-sub { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+  .band.mid .band-sub { color: rgba(255,255,255,.5); }
+
+  /* verdict */
+  .verdict-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .verdict-pill.low { background: var(--red-bg); color: var(--accent); }
+  .verdict-pill.fair { background: var(--amber-bg); color: #7a5c00; }
+  .verdict-pill.strong { background: var(--green-bg); color: var(--green); }
+  .verdict-text { font-size: 14px; color: var(--ink2); line-height: 1.6; }
+
+  /* flags */
+  .flags { display: flex; flex-direction: column; gap: 10px; }
+  .flag-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px; line-height: 1.5;
+  }
+  .flag-item.red { background: var(--red-bg); }
+  .flag-item.amber { background: var(--amber-bg); }
+  .flag-item.green { background: var(--green-bg); }
+  .flag-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 4px;
+  }
+  .red .flag-dot { background: var(--accent); }
+  .amber .flag-dot { background: #d4900a; }
+  .green .flag-dot { background: var(--green); }
+  .flag-text { color: var(--ink2); }
+
+  /* email script */
+  .email-box {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 13px; line-height: 1.8;
+    color: var(--ink2);
+    white-space: pre-wrap;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--ink); color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 100px;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity .15s;
+  }
+  .copy-btn:hover { opacity: .8; }
+  .copy-btn.copied { background: var(--green); }
+
+  /* phone script */
+  .phone-box {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 13px; line-height: 1.8;
+    color: var(--ink2);
+  }
+  .script-line {
+    display: flex; gap: 10px; margin-bottom: 10px;
+  }
+  .script-role {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: var(--ink3); min-width: 60px; padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .script-say { color: var(--ink2); }
+
+  /* upgrade */
+  .upgrade-bar {
+    background: var(--ink);
+    padding: 20px 32px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .upgrade-bar p {
+    color: rgba(255,255,255,.8);
+    font-size: 14px;
+  }
+  .upgrade-bar strong { color: #fff; }
+  .upgrade-btn {
+    background: var(--accent); color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    padding: 9px 20px; border-radius: 100px;
+    border: none; cursor: pointer;
+    white-space: nowrap;
+    transition: opacity .15s;
+  }
+  .upgrade-btn:hover { opacity: .9; }
+
+  /* share row */
+  .share-row {
+    padding: 20px 32px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .share-row p { font-size: 13px; color: var(--ink3); }
+  .share-btns { display: flex; gap: 8px; }
+  .share-btn {
+    font-size: 12px; font-weight: 600;
+    padding: 7px 16px; border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--paper);
+    cursor: pointer; color: var(--ink2);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color .15s;
+  }
+  .share-btn:hover { border-color: var(--ink3); }
+
+  /* loading state */
+  .loading-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 20px; padding: 48px 32px;
+    text-align: center; margin-top: 24px;
+    display: none;
+  }
+  .loading-card.visible { display: block; }
+  .loading-dots {
+    display: flex; justify-content: center; gap: 6px;
+    margin-bottom: 16px;
+  }
+  .loading-dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .loading-dots span:nth-child(2) { animation-delay: .2s; }
+  .loading-dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes pulse {
+    0%, 80%, 100% { transform: scale(.6); opacity: .4; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+  .loading-status {
+    font-size: 14px; color: var(--ink3);
+    font-style: italic;
+  }
+
+  /* error */
+  .error-card {
+    background: var(--red-bg); border: 1px solid rgba(200,68,12,.2);
+    border-radius: 12px; padding: 16px 20px;
+    margin-top: 16px; font-size: 13px; color: var(--accent);
+    display: none;
+  }
+  .error-card.visible { display: block; }
+
+  @media (max-width: 600px) {
+    nav { padding: 14px 20px; }
+    .hero { padding: 40px 20px 32px; }
+    .form-wrap { padding: 0 16px 60px; }
+    .card-body, .card-header { padding: 20px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .comp-row { grid-template-columns: 1fr; }
+    .comp-bands { grid-template-columns: 1fr; }
+    .result-section { padding: 20px; }
+    .upgrade-bar { padding: 16px 20px; }
+    .share-row { padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Negotiate<span>AI</span></div>
+  <button class="nav-pill" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">Get my offer analyzed →</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">Free offer analysis</div>
+  <h1>Get paid<br><em>what you're worth</em></h1>
+  <p class="hero-sub">Paste your offer. Get a market comp range, red flag analysis, and a ready-to-send negotiation email — in under 60 seconds.</p>
+  <div class="stat-row">
+    <div class="stat">
+      <span class="stat-n">$7,500</span>
+      <span class="stat-l">avg left on table</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">85%</span>
+      <span class="stat-l">who ask, get more</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">60s</span>
+      <span class="stat-l">to your script</span>
+    </div>
+  </div>
+</section>
+
+<div class="form-wrap" id="form-section">
+  <div class="card">
+    <div class="card-header">
+      <h2>Tell us about your offer</h2>
+      <p>The more detail you provide, the more precise your analysis</p>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Job title</label>
+          <input type="text" id="title" placeholder="e.g. Senior Software Engineer" />
+        </div>
+
+        <div class="field">
+          <label>Company</label>
+          <input type="text" id="company" placeholder="e.g. Google, a Series B startup" />
+        </div>
+
+        <div class="field">
+          <label>Location</label>
+          <input type="text" id="location" placeholder="e.g. Austin TX, Remote" />
+        </div>
+
+        <div class="field">
+          <label>Years of experience</label>
+          <select id="yoe">
+            <option value="">Select range</option>
+            <option>0–2 years</option>
+            <option>3–5 years</option>
+            <option>6–9 years</option>
+            <option>10–14 years</option>
+            <option>15+ years</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Offer breakdown</label>
+          <div class="comp-row">
+            <div class="comp-field">
+              <label style="text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3)">Base salary / yr</label>
+              <div class="input-prefix">
+                <span>$</span>
+                <input type="text" id="base" placeholder="150,000" />
+              </div>
+            </div>
+            <div class="comp-field">
+              <label style="text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3)">Annual bonus</label>
+              <div class="input-prefix">
+                <span>$</span>
+                <input type="text" id="bonus" placeholder="20,000" />
+              </div>
+            </div>
+            <div class="comp-field">
+              <label style="text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3)">Equity (4yr total)</label>
+              <div class="input-prefix">
+                <span>$</span>
+                <input type="text" id="equity" placeholder="200,000" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Sign-on bonus</label>
+          <div class="input-prefix">
+            <span>$</span>
+            <input type="text" id="signon" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Competing offers?</label>
+          <select id="competing">
+            <option value="none">No competing offers</option>
+            <option value="interviewing">Actively interviewing elsewhere</option>
+            <option value="offer">Have another offer</option>
+            <option value="multiple">Multiple competing offers</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Any context or concerns? (optional)</label>
+          <textarea id="context" placeholder="e.g. The deadline is Friday, the equity cliff is 2 years, I currently earn $130K, this is my dream company..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="submit-row">
+        <p class="submit-note">Free. No account needed. Results in ~20 seconds.</p>
+        <button class="btn-submit" id="analyzeBtn" onclick="analyze()">
+          <div class="spinner"></div>
+          <span class="btn-text">Analyze my offer →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-card" id="errorCard"></div>
+
+  <div class="loading-card" id="loadingCard">
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <p class="loading-status" id="loadingStatus">Benchmarking your offer against market data...</p>
+  </div>
+
+  <div id="results">
+    <div class="result-card" id="resultCard"></div>
+  </div>
+</div>
+
+<script>
+const STATUSES = [
+  "Benchmarking your offer against market data...",
+  "Scanning for red flags and leverage points...",
+  "Crafting your negotiation strategy...",
+  "Writing your personalized email script...",
+  "Finalizing your analysis..."
+];
+
+let statusInterval;
+
+function startLoadingStatus() {
+  let i = 0;
+  document.getElementById('loadingStatus').textContent = STATUSES[0];
+  statusInterval = setInterval(() => {
+    i = (i + 1) % STATUSES.length;
+    document.getElementById('loadingStatus').textContent = STATUSES[i];
+  }, 3500);
+}
+
+function stopLoadingStatus() {
+  clearInterval(statusInterval);
+}
+
+function getFormData() {
+  return {
+    title: document.getElementById('title').value.trim(),
+    company: document.getElementById('company').value.trim(),
+    location: document.getElementById('location').value.trim(),
+    yoe: document.getElementById('yoe').value,
+    base: document.getElementById('base').value.trim(),
+    bonus: document.getElementById('bonus').value.trim(),
+    equity: document.getElementById('equity').value.trim(),
+    signon: document.getElementById('signon').value.trim(),
+    competing: document.getElementById('competing').value,
+    context: document.getElementById('context').value.trim()
+  };
+}
+
+function validate(d) {
+  if (!d.title) return "Please enter your job title.";
+  if (!d.company) return "Please enter the company name.";
+  if (!d.location) return "Please enter your location.";
+  if (!d.yoe) return "Please select your years of experience.";
+  if (!d.base) return "Please enter your base salary offer.";
+  return null;
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorCard');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function hideError() {
+  document.getElementById('errorCard').classList.remove('visible');
+}
+
+function formatCurrency(n) {
+  if (!n) return 'N/A';
+  const num = parseInt(String(n).replace(/\D/g,''));
+  if (isNaN(num)) return 'N/A';
+  if (num >= 1000) return '$' + (num/1000).toFixed(0) + 'K';
+  return '$' + num;
+}
+
+async function analyze() {
+  hideError();
+  const d = getFormData();
+  const err = validate(d);
+  if (err) { showError(err); return; }
+
+  const btn = document.getElementById('analyzeBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('loadingCard').classList.add('visible');
+  document.getElementById('results').classList.remove('visible');
+  startLoadingStatus();
+
+  const prompt = buildPrompt(d);
+
+  try {
+    const resp = await fetch('/api/negotiate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2500,
+        system: `You are an expert salary negotiation coach with deep knowledge of tech and non-tech compensation across US markets. You have insider knowledge of FAANG and startup comp structures, vesting schedules, equity, and recruiter tactics.
+
+CRITICAL: Respond ONLY with a single valid JSON object. Absolutely no text before or after the JSON. No markdown fences, no backticks, no "Here is..." preamble. Start your response with { and end with }.
+
+Return this exact JSON structure (replace all placeholder values):
+{
+  "verdict": "low",
+  "verdict_text": "2-3 sentence plain-English summary of whether this offer is competitive and why.",
+  "comp_p25": "$150k",
+  "comp_p50": "$175k",
+  "comp_p75": "$200k",
+  "comp_note": "One sentence explaining what drives comp at this level and company.",
+  "flags": [
+    { "type": "red", "text": "Specific red flag about this offer" },
+    { "type": "amber", "text": "Something to watch out for" },
+    { "type": "green", "text": "A genuine positive about this offer" }
+  ],
+  "ask_amount": "$XXXk base",
+  "email_subject": "Re: Job Offer - [Role]",
+  "email_body": "Dear [Recruiter name],\\n\\nThank you for the offer...\\n\\n[full email body here]\\n\\nBest,\\n[Your name]",
+  "phone_lines": [
+    { "role": "You", "line": "Opening line to start the negotiation call" },
+    { "role": "Them", "line": "Likely recruiter response" },
+    { "role": "You", "line": "Your counter" },
+    { "role": "Them", "line": "Their follow-up" },
+    { "role": "You", "line": "Your closing line" }
+  ]
+}
+
+Rules:
+- verdict must be exactly "low", "fair", or "strong"
+- flags: 3-5 items mixing types, specific to their actual offer numbers
+- email_body: write the complete email, use their actual dollar figures, propose a specific counter 10-20% above base, use \\n for line breaks
+- phone_lines: 4-6 realistic back-and-forth lines
+- All strings must be valid JSON (escape any quotes inside strings with \\")`,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      throw new Error(data.error?.message || 'API error');
+    }
+
+    const raw = data.content?.[0]?.text || '';
+    let json;
+
+    // Strategy 1: direct parse
+    try { json = JSON.parse(raw.trim()); } catch(_) {}
+
+    // Strategy 2: strip markdown fences
+    if (!json) {
+      try {
+        const stripped = raw.replace(/^```(?:json)?\s*/im, '').replace(/\s*```\s*$/m, '').trim();
+        json = JSON.parse(stripped);
+      } catch(_) {}
+    }
+
+    // Strategy 3: extract first { ... } block (handles any preamble text)
+    if (!json) {
+      try {
+        const match = raw.match(/\{[\s\S]*\}/);
+        if (match) json = JSON.parse(match[0]);
+      } catch(_) {}
+    }
+
+    // Strategy 4: find outermost balanced braces
+    if (!json) {
+      try {
+        const start = raw.indexOf('{');
+        const end = raw.lastIndexOf('}');
+        if (start !== -1 && end > start) json = JSON.parse(raw.slice(start, end + 1));
+      } catch(_) {}
+    }
+
+    if (!json) {
+      console.error('Raw API response was:', raw);
+      throw new Error('Could not read AI response. The model may have returned unexpected formatting — please try again.');
+    }
+
+    renderResults(d, json);
+
+  } catch(e) {
+    showError('Something went wrong: ' + (e.message || 'Please try again.'));
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    document.getElementById('loadingCard').classList.remove('visible');
+    stopLoadingStatus();
+  }
+}
+
+function buildPrompt(d) {
+  const competing = {
+    none: 'no competing offers',
+    interviewing: 'actively interviewing elsewhere',
+    offer: 'has one competing offer',
+    multiple: 'has multiple competing offers'
+  }[d.competing];
+
+  return `Analyze this job offer:
+
+Role: ${d.title}
+Company: ${d.company}
+Location: ${d.location}
+Experience: ${d.yoe}
+Base salary offered: $${d.base}
+Annual bonus: ${d.bonus ? '$'+d.bonus : 'not mentioned'}
+Equity (4yr): ${d.equity ? '$'+d.equity : 'not mentioned'}
+Sign-on: ${d.signon ? '$'+d.signon : 'none'}
+Competing offers: ${competing}
+Additional context: ${d.context || 'none'}
+
+Provide a comprehensive negotiation analysis and ready-to-send email script.`;
+}
+
+function renderResults(d, r) {
+  const verdictClass = r.verdict || 'fair';
+  const verdictLabel = { low: '⚠ Below market', fair: '~ Market rate', strong: '✓ Competitive' }[verdictClass] || 'Market rate';
+
+  const flagsHTML = (r.flags || []).map(f => `
+    <div class="flag-item ${f.type}">
+      <div class="flag-dot"></div>
+      <div class="flag-text">${f.text}</div>
+    </div>`).join('');
+
+  const emailBody = (r.email_body || '').replace(/\n/g, '\n');
+
+  const phoneHTML = (r.phone_lines || []).map(l => `
+    <div class="script-line">
+      <div class="script-role">${l.role}</div>
+      <div class="script-say">${l.line}</div>
+    </div>`).join('');
+
+  document.getElementById('resultCard').innerHTML = `
+
+    <div class="result-section">
+      <div class="result-label">Offer verdict</div>
+      <div class="verdict-pill ${verdictClass}">${verdictLabel}</div>
+      <p class="verdict-text">${r.verdict_text || ''}</p>
+    </div>
+
+    <div class="result-section">
+      <div class="result-label">Market comp range — ${d.title}, ${d.location}</div>
+      <div class="comp-bands">
+        <div class="band">
+          <div class="band-label">P25</div>
+          <div class="band-val">${r.comp_p25 || '—'}</div>
+          <div class="band-sub">25th percentile</div>
+        </div>
+        <div class="band mid">
+          <div class="band-label">P50 · Median</div>
+          <div class="band-val">${r.comp_p50 || '—'}</div>
+          <div class="band-sub">your target</div>
+        </div>
+        <div class="band">
+          <div class="band-label">P75</div>
+          <div class="band-val">${r.comp_p75 || '—'}</div>
+          <div class="band-sub">strong candidates</div>
+        </div>
+      </div>
+      ${r.comp_note ? `<p style="font-size:12px;color:var(--ink3);margin-top:12px">${r.comp_note}</p>` : ''}
+    </div>
+
+    <div class="result-section">
+      <div class="result-label">Red flags & leverage points</div>
+      <div class="flags">${flagsHTML}</div>
+    </div>
+
+    <div class="result-section">
+      <div class="result-label">Your negotiation email — ready to send</div>
+      <p style="font-size:13px;color:var(--ink3);margin-bottom:10px">Subject: <strong style="color:var(--ink2)">${r.email_subject || 'Re: Job Offer'}</strong></p>
+      <div class="email-box" id="emailBox">${emailBody}<button class="copy-btn" id="copyBtn" onclick="copyEmail()">Copy</button></div>
+    </div>
+
+    <div class="result-section">
+      <div class="result-label">Phone call script — if they call you</div>
+      <div class="phone-box">${phoneHTML}</div>
+    </div>
+
+    <div class="upgrade-bar">
+      <p><strong>Want counter-offer scripts?</strong> When they come back with a lower number, here's exactly what to say next →</p>
+      <button class="upgrade-btn" onclick="alert('Pro coming soon — enter your email to get notified at launch!')">Unlock Pro — $12/mo</button>
+    </div>
+
+    <div class="share-row">
+      <p>Got a better offer? Share your result.</p>
+      <div class="share-btns">
+        <button class="share-btn" onclick="shareLinkedIn()">Share on LinkedIn</button>
+        <button class="share-btn" onclick="shareTwitter()">Post on X</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyEmail() {
+  const box = document.getElementById('emailBox');
+  const btn = document.getElementById('copyBtn');
+  const text = box.innerText.replace('Copy','').replace('Copied!','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function shareLinkedIn() {
+  const url = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent('Just analyzed my job offer with NegotiateAI — found out I was leaving $15K on the table. Free tool:');
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`, '_blank');
+}
+
+function shareTwitter() {
+  const text = encodeURIComponent('Used NegotiateAI to analyze my job offer — found I was below market and got a ready-to-send negotiation email in 60 seconds. Free tool: ' + window.location.href);
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+}
+</script>
+</body>
+</html>
